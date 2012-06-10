@@ -1,0 +1,8 @@
+@import url('reset.css');
+body { font-size:9pt; }
+
+h1 {
+	font-weight:bold;
+	font-size:2em;
+	background:white; color:#336699; padding:.5em 1em;
+}

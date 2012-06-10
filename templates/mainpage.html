@@ -1,0 +1,155 @@
+{% extends "layout.html" %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mainpage.css') }}"></link>
+<script type="text/javascript">
+	function MapSearcher(map){
+		var that = this;
+		var map = map;
+		var marker = new daum.maps.Marker();
+		marker.setMap(map);
+		
+		this.search = function(addr){
+			var scr = document.createElement("script");
+			scr.src = "http://apis.daum.net/local/geo/addr2coord?q=" + addr + "&output=json&callback=mapSearcher.addrCallback&apikey={{ config['LOCAL_APIKEY'] }}";
+			$("head").eq(0).append(scr);
+		}
+		
+		this.addrCallback = function(dat){
+			alert(dat.channel.result);
+			if(dat.channel.result == 0){
+				alert("검색 결과가 없습니다.");
+				return;
+			}else if(dat.channel.result > 1){
+				this.selectResult(dat.channel);
+			}else{
+				this.addrSelect(dat.channel.item[0]);
+			}	
+		}
+		
+		that.addrSelect = function(item){
+			console.log(item.lat + " " + item.lng);
+			var pos = new daum.maps.LatLng(item.lat, item.lng);
+			map.setCenter(pos);
+			marker.setPosition(pos);
+		}
+		
+		this.selectResult = function(dat){
+			var el = $("<div />");
+			el
+				.addClass("addressSelectDiv")
+				.appendTo("body");
+			var ul = $("<ul />");
+			el.append(ul);
+			for(var i=0,l=dat.result; i<l; i++){
+				var item = dat.item[i];
+				if( item == undefined ) continue;
+				$("<li></li>")
+					.data("item", item)
+					.html(item.newAddress)
+					.click(function(){
+						that.addrSelect($(this).data("item"));
+						$(this).parent().parent().remove();
+					})
+					.appendTo(ul);
+			}
+		}
+	}
+	var roadview = null;
+	$(function(){
+		var position = new daum.maps.LatLng(37.49834149526592, 127.03451563863747);
+		var map = new daum.maps.Map(document.getElementById('map'), {
+				  level:3
+				, center : position
+				, mapTypeId : daum.maps.MapTypeId.ROAD
+			});
+		roadview = new daum.maps.Roadview(document.getElementById("roadview"));
+		mapSearcher = new MapSearcher(map);
+		var neopleIcon = new daum.maps.MarkerImage(
+			'http://www.neople.co.kr/image/neople/ci_sam.gif',
+			new daum.maps.Size(80,50),
+			new daum.maps.Point(40,30)
+		);
+		var neopleMarker = new daum.maps.Marker({position:position, image:neopleIcon}).setMap(map);
+		var circle1 = new daum.maps.Circle({
+			center:position,
+			radius:100,
+			strokeWeight:1
+		}).setMap(map);
+		var circle2 = new daum.maps.Circle({
+			center:position,
+			radius:200,
+			strokeWeight:1
+		}).setMap(map);
+		var circle3 = new daum.maps.Circle({
+			center:position,
+			radius:300,
+			strokeWeight:1
+		}).setMap(map);
+		
+		$("#searchDiv, #recommDiv").css("opacity", 0.9);
+		$("#btnRecomm").click(function(){
+			$("#recommDiv").fadeIn();
+			$.ajax({
+				"url":"/recommand",
+				"dataType":"json",
+				"type":"GET",
+				"success":function(dat){
+					$("#infoDiv").fadeIn();
+					$("#i_title").text(dat.title);
+					$("#i_tel").text(dat.tel);
+					$("#i_addr").text(dat.addr);
+					$("#i_desc").text(dat.desc);
+					$("#i_price").text(
+						dat.price_min + "원 ~ " + dat.price_max + "원"
+					);
+					$("#i_type").text(dat.type);
+					mapSearcher.addrSelect({"lat":dat.pos.lat, "lng":dat.pos.lng});
+					if( dat.panoId ){
+						$("#roadview").show();
+						roadview.relayout();
+						roadview.setPanoId(dat.panoId);
+						var p = dat.viewpoint.split(',');
+						roadview.setViewpoint({
+							"pan":p[0],
+							"tilt":p[1],
+							"zoom":p[2]
+						});
+						$("#noRoadview").hide();
+					}else{
+						$("#noRoadview").show();
+						$("#roadview").hide();
+						roadview.relayout();
+					}
+				}
+			})
+		});
+		$("#btnAdd").click(function(){
+			location.href = '/add';
+		});
+		$("div.flash").delay(2000).fadeOut(function(){ $(this).remove(); });
+	});
+</script>
+<div id="map"></div>
+<div id="searchDiv">
+	<button type="button" id="btnRecomm">추천해죠!</button>
+	<button type="button" id="btnAdd">식당 추가</button>
+	<button type="button">검색하기</button>
+</div>
+<div id="recommDiv">
+	<form method='post' action='/recommand' id='recommForm'>
+		<label>거리 <input type="checkbox" id="chk_distance" /></label>
+		<input type="text" id="distance" value="300" /> 미터 이내
+	</form>
+</div>
+<div id="infoDiv">
+	<h2 id="i_title"> </h2>
+	<div id="roadview"> </div>
+	<div id="noRoadview">로드뷰가 없습니다.</div>
+	<div id="i_tel"> </div>
+	<div id="i_addr"> </div>
+	<div id="i_desc"> </div>
+	<div id="i_price"> </div>
+	<div id="i_type"> </div>
+	<div id="i_rate"> </div>
+</div>
+{% endblock %}

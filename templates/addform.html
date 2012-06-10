@@ -1,0 +1,211 @@
+{% extends "layout.html" %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/addform.css') }}"></link>
+<script type="text/javascript">
+	function makeSelect(dat){
+		$("#searchResults").empty();
+		if(dat.length > 0){
+			$("#resultsDiv").fadeIn();
+		}else{
+			$("#resultsDiv").fadeOut();
+		}
+		for(var i=0,l=dat.length;i<l;i++){
+			var item = dat[i];
+			$("<li />")
+				.data("item", item)
+				.append("<div class='listTitle'>"+item.title+"</div>")
+				.append("<div class='listDesc'>" + item.desc + "</div>")
+				.append("<div class='listAddr'>" + item.addr + "</div>")
+				.click(function(){ getInfo($(this).data("item")); })
+				.appendTo("#searchResults")
+		}
+	}
+	
+	function translateKTM(x, y){
+		var scr = document.createElement("script");
+		scr.setAttribute("src", "http://apis.daum.net/local/geo/transcoord?apikey={{ config['LOCAL_APIKEY'] }}&x=" + x + "&y=" + y + "&fromCoord=KTM&toCoord=WGS84&output=json&callback=translateCb");
+		$("head")[0].appendChild(scr);
+	}
+	
+	function translateCb(dat){
+		var pt={"lat":dat.y, "lng":dat.x};
+		var ll = new daum.maps.LatLng(pt.lat, pt.lng);
+		$("#i_lat").val(pt.lat);
+		$("#i_lng").val(pt.lng);
+		marker.setMap(map);
+		marker.setPosition(ll);
+		map.panTo(ll);
+		roadviewClient.getNearestPanoId(ll, 10, function(pid){
+			roadview.setPanoId(pid, ll);
+			if(pid == null){
+				$("#roadView").hide();
+				$("#noRoadView").show();
+				$("#chk_roadview")
+					.removeAttr("checked")
+					.attr("disabled", "disabled");
+			}else{
+				$("#noRoadView").hide();
+				$("#roadView").show();
+				$("#chk_roadview")
+					.removeAttr("disabled");
+			}
+			
+		});
+	}
+	
+	function getInfo(dat){
+		dat.title = dat.title.replace(/<[^<]+>/g, '');
+		$("#infom").html(dat.title);
+		$("#infoTitle").html(dat.title);
+		$("#infoAddr").html(dat.addr);
+		$("#infoTel").html(dat.tel);
+		$("#infoDesc").html(dat.desc);
+		$("#resultsDiv, p#default").slideUp();
+		$("#information").fadeIn();
+		$("#i_title").val(dat.title);
+		$("#i_addr").val(dat.addr);
+		$("#i_tel").val(dat.tel);
+		translateKTM(dat.x, dat.y);
+	}
+	var map = null;
+	var marker = null;
+	var roadview = null;
+	var roadviewClient = null;
+	$(function(){
+		var position = new daum.maps.LatLng(37.49834149526592, 127.03451563863747);
+		map = new daum.maps.Map(document.getElementById('map'), {
+				  level:3
+				, center : position
+				, mapTypeId : daum.maps.MapTypeId.ROAD
+			});
+		var neopleIcon = new daum.maps.MarkerImage(
+			'http://www.neople.co.kr/image/neople/ci_sam.gif',
+			new daum.maps.Size(80,50),
+			new daum.maps.Point(40,30)
+		);
+		var neopleMarker = new daum.maps.Marker({position:position, image:neopleIcon}).setMap(map);
+		var circle1 = new daum.maps.Circle({
+			center:position,
+			radius:100,
+			strokeWeight:1
+		}).setMap(map);
+		var circle2 = new daum.maps.Circle({
+			center:position,
+			radius:200,
+			strokeWeight:1
+		}).setMap(map);
+		var circle3 = new daum.maps.Circle({
+			center:position,
+			radius:300,
+			strokeWeight:1
+		}).setMap(map);
+		marker = new daum.maps.Marker({
+			position:position
+		});
+		roadview = new daum.maps.Roadview(document.getElementById("roadView"));
+		roadviewClient = new daum.maps.RoadviewClient();
+		$("#searchForm").submit(function(){
+			$.ajax({
+				  "url":"/localsearch"
+				, "data":$(this).serialize()
+				, "type":"POST"
+				, "dataType":"json"
+				, "success":makeSelect
+				, "error":function(xhr, err){
+					alert(err);
+				}
+			})
+			return false;
+		});
+		$("#information").hide();
+		$("#btnCancel, #btnReturn").click(function(){
+			location.href = '{{url_for("mainPage")}}';
+		});
+		$("#addForm").submit(function(){
+			if( $("#chk_roadview").attr("checked") ){
+				var v = roadview.getViewpoint();
+				var vp = v.pan + ',' + v.tilt + ',' + v.zoom;
+				var pid = roadview.getPanoId();
+				$("#i_viewpoint").val(vp);
+				$("#i_panoid").val(pid);
+			}
+			return true;
+		});
+	})
+</script>
+<div id="searchDiv">
+	<form action='/localsearch' method='post' id="searchForm">
+		<input type="text" id="txtKey" name="key" />
+		<button type="submit">검색</button>
+		<button type="button" id="btnReturn">취소</button>
+		<span class='description'>추가할 식당 이름을 검색하세요!</span>
+	</form>
+</div>
+<p id="default">추가하려는 식당을 검색해서 선택하세요.</p>
+<div id="resultsDiv">
+	<ul id="searchResults">
+		
+	</ul>
+</div>
+<div id="information">
+	<form method="post" action="/add" id="addForm">
+		<input type="hidden" id="i_title" name="title" />
+		<input type="hidden" id="i_addr" name="addr" />
+		<input type="hidden" id="i_tel" name="tel" />
+		<input type="hidden" id="i_desc" name="desc" />
+		<input type="hidden" id="i_lat" name="lat" />
+		<input type="hidden" id="i_lng" name="lng" />
+		<input type="hidden" id="i_panoid" name="panoId" />
+		<input type="hidden" id="i_viewpoint" name="viewpoint" />		
+		<h2 id="infom"></h2>
+		<div id="map"></div>
+		<div id="roadView"></div>
+		<div id="noRoadView">해당 위치와 맞는 로드뷰가 없습니다.</div>
+		<dl>
+			<dt>상호</dt>
+			<dd id="infoTitle"></dd>
+			<dt>주소</dt>
+			<dd id="infoAddr"></dd>
+			<dt>전화번호</dt>
+			<dd id="infoTel"></dd>
+		</dl>
+		<p id="infoDesc"></p>
+		<table id="addingInfo">
+			<tr id="priceTr">
+				<th>가격대</th>
+				<td><input type="text" name="price_min" value="" />원 ~ <input type="text" name="price_max" value="" />원</td>
+			</tr>
+			<tr id="typeTr">
+				<th>종류</th>
+				<td>
+					<label><input type="checkbox" name="type[]" value="한식" />한식</label>
+					<label><input type="checkbox" name="type[]" value="중식" />중식</label>
+					<label><input type="checkbox" name="type[]" value="양식" />양식</label>
+					<label><input type="checkbox" name="type[]" value="일식" />일식</label>
+					<label><input type="checkbox" name="type[]" value="분식" />분식</label>
+					<label><input type="checkbox" name="type[]" value="기타" />기타</label>
+				</td>
+			</tr>
+			<tr id="roadviewTr">
+				<th>로드뷰 포함</th>
+				<td>
+					<label><input type="checkbox" name="roadview" id="chk_roadview" />로드뷰를 포함합니다.</label>
+				</td>
+			</tr>
+			<tr id="foodTr">
+				<th>추천메뉴</th>
+				<td>
+					<input type="text" name="food" value="" />
+				</td>
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+				<td>
+					<button type="submit">저장하기</button>
+					<button type="button" id="btnCancel">취소</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+{% endblock %}

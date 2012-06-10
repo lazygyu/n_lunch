@@ -8,7 +8,6 @@ from xml.dom import minidom
 from pymongo import Connection
 from bson import json_util
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-import daemon
 
 # configuration
 MAP_APIKEY = '4767595a8ea859dba0a0a739fdfd414d970cc9a1'

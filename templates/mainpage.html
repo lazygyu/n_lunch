@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mainpage.css') }}"></link>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mainpage.css', prefix='/lunch') }}"></link>
 <script type="text/javascript">
 	function MapSearcher(map){
 		var that = this;
@@ -27,7 +27,6 @@
 		}
 		
 		that.addrSelect = function(item){
-			console.log(item.lat + " " + item.lng);
 			var pos = new daum.maps.LatLng(item.lat, item.lng);
 			map.setCenter(pos);
 			marker.setPosition(pos);
@@ -126,6 +125,9 @@
 		$("#btnAdd").click(function(){
 			location.href = '/add';
 		});
+		$("#btnAbout").click(function(){
+			location.href = '{{ url_for("about") }}';
+		});
 		$("div.flash").delay(2000).fadeOut(function(){ $(this).remove(); });
 	});
 </script>
@@ -134,6 +136,7 @@
 	<button type="button" id="btnRecomm">추천해죠!</button>
 	<button type="button" id="btnAdd">식당 추가</button>
 	<button type="button">검색하기</button>
+	<button type="button" id="btnAbout">서비스 정보</button>
 </div>
 <div id="recommDiv">
 	<form method='post' action='/recommand' id='recommForm'>

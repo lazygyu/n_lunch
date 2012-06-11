@@ -9,7 +9,7 @@
 		<script type='text/javascript' src='http://apis.daum.net/maps/maps3.js?apikey={{ config['MAP_APIKEY'] }}'></script>
 	</head>
 	<body>
-		<h1><a href="{{ url_for('about') }}">점심 뭐 먹지?!</a></h1>
+		<h1>점심 뭐 먹지?!</h1>
 		{% for message in get_flashed_messages() %}
 			<div class='flash'>{{ message }}</div>
 		{% endfor %}

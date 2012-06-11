@@ -1,26 +1,36 @@
 {% extends "layout.html" %}
 {% block body %}
-<h2>°³¹ß¿¡ »ç¿ëµÈ °Íµé</h2>
+<style type="text/css">
+	h2 { font-size:1.5em; font-weight:bold; padding:.5em; }
+	dl { padding-left:2em; }
+	dt { font-size:1.2em; font-weight:bold; margin-top:1em; color:#369; }
+	dd { padding:.5em; padding-left:2em; border-left:solid 2px #69c; color:#666;}
+	ul { padding-left:1em; }
+	ul>li { padding:.2em; }
+	h3 { font-size:1.1em; font-weight:bold; }
+</style>
+<h2>ê°œë°œì— ì‚¬ìš©ëœ ê²ƒë“¤</h2>
 <dl>
-	<dt>¼­¹ö</dt>
+	<dt>ì„œë²„</dt>
 	<dd>
-		<h3>Python 2.7</h3>
+		<h3><a href="http://www.python.org/download/">Python 2.7</a></h3>
 		<ul>
-			<li>Flask</li>
-			<li>pymongo</li>
+			<li><a href="http://flask.pocoo.org/">Flask</a></li>
+			<li><a href="http://pypi.python.org/pypi/pymongo/">pymongo</a></li>
 		</ul>
-		<h3>MongoDB</h3>
+		<h3><a href="http://www.mongodb.org/">MongoDB</a></h3>
 	</dd>
-	<dt>Å¬¶óÀÌ¾ğÆ®</dt>
+	<dt>í´ë¼ì´ì–¸íŠ¸</dt>
 	<dd>
 		<h3>OpenAPI</h3>
 		<dl>
-			<dt>Áöµµ / ÁÂÇ¥°èº¯È¯ / ·Îµåºä</dt>
-			<dd>´ÙÀ½ OpenAPI</dd>
-			<dt>Áö¿ª°Ë»ö</dt>
-			<dd>³×ÀÌ¹ö OpenAPI</dd>
+			<dt>ì§€ë„ / ì¢Œí‘œê³„ë³€í™˜ / ë¡œë“œë·°</dt>
+			<dd><a href="http://apis.daum.net/">ë‹¤ìŒ OpenAPI</a></dd>
+			<dt>ì§€ì—­ê²€ìƒ‰</dt>
+			<dd><a href="http://dev.naver.com/openapi/">ë„¤ì´ë²„ OpenAPI</a></dd>
 		</dl>
-		<h3>jQuery</h3>
+		<h3><a href="http://jquery.com">jQuery</a></h3>
 	</dd>
 </dl>
+<a href="{{ url_for('mainPage') }}" class="linkBtn" >ëŒì•„ê°€ê¸°</a>
 {% endblock %}

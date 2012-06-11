@@ -8,7 +8,7 @@ from xml.dom import minidom
 from pymongo import Connection
 from bson import json_util
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-
+from werkzeug.contrib.fixers import ProxyFix
 # configuration
 MAP_APIKEY = '4767595a8ea859dba0a0a739fdfd414d970cc9a1'
 LOCAL_APIKEY = '97b834e4a44793d02a9a4363d0e420fa17b85f0c'
@@ -16,7 +16,7 @@ NAVER_APIKEY = 'bedb6502ebaec4a31f6531963162d08a'
 SECRET_KEY = 'whereweeatlunch' 
 DEBUG = True
 LANG = "utf-8"
-PREFIX = "lunch"
+PREFIX = "/lunch"
 app = Flask(__name__)
 app.config.from_object(__name__)
 
@@ -95,8 +95,12 @@ def addForm():
         return redirect(url_for('mainPage'))
     
 
+app.wsgi_app = ProxyFix(app.wsgi_app)
+
+
 def start_server():
 	app.run(host='0.0.0.0')
+	pass
 
 if __name__ == '__main__':	
 	start_server()

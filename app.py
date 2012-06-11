@@ -16,6 +16,7 @@ NAVER_APIKEY = 'bedb6502ebaec4a31f6531963162d08a'
 SECRET_KEY = 'whereweeatlunch' 
 DEBUG = True
 LANG = "utf-8"
+PREFIX = "lunch"
 app = Flask(__name__)
 app.config.from_object(__name__)
 

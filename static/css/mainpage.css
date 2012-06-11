@@ -145,3 +145,20 @@ h2#i_title{
 	display:none;
 	margin:0 auto;
 }
+
+#i_tel {
+	font-size:1.2em;
+	font-weight:bold;
+	color:#666;
+}
+
+#i_addr {
+	color:#333;
+}
+
+#i_price {
+	font-size:1.2em;
+	font-weight:bold;
+	color:#333;
+}
+

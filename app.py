@@ -31,6 +31,10 @@ def indexPage():
 def mainPage():
     return render_template('mainpage.html', config=app.config)
 
+@app.route('/about')
+def about():
+    return render_template('about.html', config=app.config)
+
 @app.route('/recommand')
 def recommand():
     conn = dbCon()

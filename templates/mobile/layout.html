@@ -1,0 +1,19 @@
+<!doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+ <html>
+ 	<head>
+ 		<meta http-equiv="Content-type" content="text/html; charset=UTF-8;" />
+ 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+ 		<title>점심 뭐 먹지?</title>
+ 		<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/jquery.mobile.1.1.0.min.css')}}"></link>
+ 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+ 		<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.mobile-1.1.0.min.js') }}"></script>
+ 	</head>
+ 	<body>
+ 		{% for message in get_flashed_messages() %}
+			<div class='flash'>{{ message }}</div>
+		{% endfor %}
+		{% block body %}{% endblock %}
+ 	</body>
+ </html>
+ 

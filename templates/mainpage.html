@@ -87,6 +87,7 @@
 		
 		$("#searchDiv, #recommDiv").css("opacity", 0.9);
 		$("#btnRecomm").click(function(){
+			$("#loadingDiv").show();
 			$("#recommDiv").fadeIn();
 			$.ajax({
 				"url":"/recommand",
@@ -105,20 +106,26 @@
 					mapSearcher.addrSelect({"lat":dat.pos.lat, "lng":dat.pos.lng});
 					if( dat.panoId ){
 						$("#roadview").show();
-						roadview.relayout();
-						roadview.setPanoId(dat.panoId);
-						var p = dat.viewpoint.split(',');
-						roadview.setViewpoint({
-							"pan":p[0],
-							"tilt":p[1],
-							"zoom":p[2]
-						});
 						$("#noRoadview").hide();
+						//roadview.relayout();
+						try{
+							roadview.setPanoId(dat.panoId);
+							var p = dat.viewpoint.split(',');
+							roadview.setViewpoint({
+								"pan":p[0],
+								"tilt":p[1],
+								"zoom":p[2]
+							});
+						}catch(er){
+							//do nothing
+						}
+						
 					}else{
 						$("#noRoadview").show();
 						$("#roadview").hide();
 						roadview.relayout();
 					}
+					$("#loadingDiv").hide();
 				}
 			})
 		});
@@ -129,6 +136,7 @@
 			location.href = '{{ url_for("about") }}';
 		});
 		$("div.flash").delay(2000).fadeOut(function(){ $(this).remove(); });
+		$("#loadingDiv").css({"opacity":0.8});
 	});
 </script>
 <div id="map"></div>
@@ -139,6 +147,7 @@
 	<button type="button" id="btnAbout">서비스 정보</button>
 </div>
 <div id="recommDiv">
+	<span>현재 {{ rcount }} 개의 식당 정보가 있어염</span>
 	<form method='post' action='/recommand' id='recommForm'>
 		<label>거리 <input type="checkbox" id="chk_distance" /></label>
 		<input type="text" id="distance" value="300" /> 미터 이내
@@ -154,5 +163,8 @@
 	<div id="i_price"> </div>
 	<div id="i_type"> </div>
 	<div id="i_rate"> </div>
+</div>
+<div id="loadingDiv">
+	로딩중이에염!
 </div>
 {% endblock %}

@@ -8,6 +8,7 @@
 	ul { padding-left:1em; }
 	ul>li { padding:.2em; }
 	h3 { font-size:1.1em; font-weight:bold; }
+	#returnDiv { padding:1em; }
 </style>
 <h2>개발에 사용된 것들</h2>
 <dl>
@@ -17,6 +18,7 @@
 		<ul>
 			<li><a href="http://flask.pocoo.org/">Flask</a></li>
 			<li><a href="http://pypi.python.org/pypi/pymongo/">pymongo</a></li>
+			<li><a href="http://gunicorn.org/">gunicorn</a></li>
 		</ul>
 		<h3><a href="http://www.mongodb.org/">MongoDB</a></h3>
 	</dd>
@@ -32,5 +34,7 @@
 		<h3><a href="http://jquery.com">jQuery</a></h3>
 	</dd>
 </dl>
-<a href="{{ url_for('mainPage') }}" class="linkBtn" >돌아가기</a>
+<div id="returnDiv">
+	<a href="{{ url_for('mainPage') }}" class="linkBtn" >돌아가기</a>
+</div>
 {% endblock %}

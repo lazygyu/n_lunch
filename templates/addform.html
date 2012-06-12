@@ -35,7 +35,7 @@
 		marker.setMap(map);
 		marker.setPosition(ll);
 		map.panTo(ll);
-		roadviewClient.getNearestPanoId(ll, 10, function(pid){
+		roadviewClient.getNearestPanoId(ll, 15, function(pid){
 			roadview.setPanoId(pid, ll);
 			if(pid == null){
 				$("#roadView").hide();

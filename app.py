@@ -10,7 +10,7 @@ from bson import json_util
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from werkzeug.contrib.fixers import ProxyFix
 # configuration
-MAP_APIKEY = '4767595a8ea859dba0a0a739fdfd414d970cc9a1'
+MAP_APIKEY = 'd19ca444058e82fed60dc1dc2cef323909e45578'
 LOCAL_APIKEY = '97b834e4a44793d02a9a4363d0e420fa17b85f0c'
 NAVER_APIKEY = 'bedb6502ebaec4a31f6531963162d08a'
 SECRET_KEY = 'whereweeatlunch' 
@@ -25,11 +25,15 @@ def dbCon():
 
 @app.route('/')
 def indexPage():
-    return "No"
+    return redirect(url_for('mainPage'))
 
 @app.route('/lunch')
 def mainPage():
-    return render_template('mainpage.html', config=app.config)
+    conn = dbCon()
+    db = conn.lunch
+    collection = db.restaurants
+    cnt = collection.count()
+    return render_template('mainpage.html', config=app.config, rcount=cnt)
 
 @app.route('/about')
 def about():

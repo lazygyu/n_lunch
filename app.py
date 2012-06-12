@@ -25,6 +25,8 @@ def dbCon():
 
 @app.route('/')
 def indexPage():
+    if request.headers['user-agent'].lower().find("mobile") > -1:
+        return "mobile"
     return redirect(url_for('mainPage'))
 
 @app.route('/lunch')

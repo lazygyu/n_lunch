@@ -2,13 +2,46 @@
 {% block body %}
 	<h2>추천 옵션</h2>
 	<form method="post" action="{{url_for('mobile_recommand')}}">
-		<fieldset data-role="fieldcontain">
-			<label>거리 제한
+		<div data-role="fieldcontain">
+			<label for="hasDistance">거리 제한 : </label>
 				<select name="hasDistance" id="hasDistance" data-role="slider" class="ui-slider-switch">
 					<option value="off">Off</option>
 					<option value="on">On</option>
 				</select>
-			</label>
-		</fieldset>
-	</form> 
+		</div>
+		<div data-role="fieldcontain" id="distanceDiv">
+			<label for="distance">거리 (m) : </label>
+			<input type="range" name="distance" id="distance" value="100" min="10" max="500" data-highlight="true" />
+		</div>
+		<div data-role="fieldcontain">
+			<fieldset data-role="controlgroup">
+				<legend>식당 종류 : </legend>
+				<input type="checkbox" name="type[]" value="한식" id="type1" />
+				<label for="type1">한식</label>
+				<input type="checkbox" name="type[]" value="중식" id="type2" />
+				<label for="type2">중식</label>
+				<input type="checkbox" name="type[]" value="양식" id="type3" />
+				<label for="type3">양식</label>
+				<input type="checkbox" name="type[]" value="일식" id="type4" />
+				<label for="type4">일식</label>
+				<input type="checkbox" name="type[]" value="분식" id="type5" />
+				<label for="type5">분식</label>
+				<input type="checkbox" name="type[]" value="기타" id="type6" />
+				<label for="type6">기타</label>
+			</fieldset>
+		</div>
+	</form>
+<script type="text/javascript">
+	$(function(){
+		$("#distanceDiv").hide();
+		$("#hasDistance").click(function(){
+			var v = $("option:selected", this).val();
+			if( v == "on"){
+				$("#distance").slideDown();
+			}else{
+				$("#distance").slideUp();
+			}
+		});
+	})
+</script>
 {% endblock %}

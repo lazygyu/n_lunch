@@ -2,13 +2,26 @@
 {% block body %}
 <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey={{config['MAP_APIKEY']}}" charset="utf-8"></script>
 <script type="text/javascript">
+	function showCurrentLocation(position){
+		var scr = document.createElement("script");
+		scr.src = "http://apis.daum.net/local/geo/coord2addr?longitude="
+					+ position.coords.longitude
+					+ "&latitude="
+					+ position.coords.latitude
+					+ "&output=json&callback=locationCallback"
+					+ "&apikey={{config['LOCAL_APIKEY']}}";
+		$("head")[0].appendChild(scr);
+	}
+	
+	function locationCallback(dat){
+		$("#locationResult").text(dat.name1 + " " + dat.name2 + " " + dat.name3);
+	}
 	$(function(){
 		if(navigator.geolocation){
-			navigator.geolocation.getCurrentPosition(function(position){
-				alert(position);
-				var latLng = new daum.maps.LatLng(position.coords.latitude, position.coords.longitude);
-				
+			$("#btnCurLocation").click(function(){
+				navigator.geolocation.getCurrentPosition(showCurrentLocation);	
 			});
+			
 		}
 	});
 </script>
@@ -18,6 +31,8 @@
 	</div>
 	<div data-role="content">
 		<a href="{{url_for('recommand')}}" data-role="button" data-icon="check" data-theme="b">추천해줘!</a>
+		<button type="button" data-icon="info" id="btnCurLocation">현재 위치 확인!</button>
+		<p id="locationResult"></p> 
 	</div>
 </div>
 {% endblock %}

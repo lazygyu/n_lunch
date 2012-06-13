@@ -1,5 +1,17 @@
 {% extends "mobile/layout.html" %}
 {% block body %}
+<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey={{config['MAP_APIKEY']}}" charset="utf-8"></script>
+<script type="text/javascript">
+	$(function(){
+		if(navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(function(position){
+				alert(position);
+				var latLng = new daum.maps.LatLng(position.coords.latitude, position.coords.longitude);
+				
+			});
+		}
+	});
+</script>
 <div data-role="page">
 	<div data-role="header">
 		<h1>점심 뭐 먹지?</h1>

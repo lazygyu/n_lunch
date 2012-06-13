@@ -5,11 +5,7 @@
 		<h1>점심 뭐 먹지?</h1>
 	</div>
 	<div data-role="content">
-		<ul data-role="listview">
-			<li><a href="{{url_for('recommand')}}" data-icon="check" data-theme="b">추천해줘!</a></li>
-			<li><a href="{{url_for('search')}}" data-icon="search">검색하기</a></li>
-			
-		</ul>
+		<a href="{{url_for('recommand')}}" data-role="button" data-icon="check" data-theme="b">추천해줘!</a>
 	</div>
 </div>
 {% endblock %}

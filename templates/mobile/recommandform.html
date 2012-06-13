@@ -4,7 +4,10 @@
 	<form method="post" action="{{url_for('mobile_recommand')}}">
 		<fieldset data-role="fieldcontain">
 			<label>거리 제한
-				<input type="checkbox" id="chkDistance" name="distance_onoff" />
+				<select name="hasDistance" id="hasDistance" data-role="slider" class="ui-slider-switch">
+					<option value="off">Off</option>
+					<option value="on">On</option>
+				</select>
 			</label>
 		</fieldset>
 	</form> 

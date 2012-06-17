@@ -25,17 +25,21 @@
 	}
 	
 	$(function(){
-		pos = new daum.maps.LatLng({{res['pos']['lat']}}, {{res['pos']['lng']}});
-		var marker = new daum.maps.Marker({
-			position:pos
-		});
-		map = new daum.maps.Map(document.getElementById("map"),
-			{'center':pos}
-		);
-		marker.setMap(map);
-		if(navigator.geolocation){
-			alert('t');
-			navigator.geolocation.getCurrentPosition(mypos);		
+		try{
+			pos = new daum.maps.LatLng({{res['pos']['lat']}}, {{res['pos']['lng']}});
+			var marker = new daum.maps.Marker({
+				position:pos
+			});
+			map = new daum.maps.Map(document.getElementById("map"),
+				{'center':pos}
+			);
+			marker.setMap(map);
+			if(navigator.geolocation){
+				alert('t');
+				navigator.geolocation.getCurrentPosition(mypos);		
+			}
+		}catch(er){
+			alert(er);
 		}
 	});
 </script>

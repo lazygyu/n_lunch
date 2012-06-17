@@ -34,7 +34,7 @@ def mobilePage():
     return render_template('mobile/main.html', config=app.config)
 
 @app.route('/m/recommand_form')
-def mobile_recommand_form():
+def mobile_search_form():
     return render_template('mobile/recommandform.html')
 
 @app.route('/m/recommand')

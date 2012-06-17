@@ -3,36 +3,40 @@
 <div data-role="collapsible">
 	<h2>추천 옵션</h2>
 	<form method="post" action="{{url_for('mobile_recommand')}}">
+		<div class="ui-grid-a">
 		<div data-role="fieldcontain">
-			<label for="hasDistance">거리 제한 : </label>
-				<select name="hasDistance" id="hasDistance" data-role="slider" class="ui-slider-switch">
+			<label for="hasDistance" class="ui-block-a">거리 제한 : </label>
+				<select name="hasDistance" id="hasDistance" data-role="slider" class="ui-slider-switch ui-block-b">
 					<option value="off">Off</option>
 					<option value="on">On</option>
 				</select>
 		</div>
 		<div data-role="fieldcontain" id="distanceDiv">
-			<label for="distance">거리 (m) : </label>
-			<input type="range" name="distance" id="distance" value="100" min="10" max="500" data-highlight="true" />
+			<label for="distance" class="ui-block-a">거리 (m) : </label>
+			<input type="range" name="distance" class="ui-block-b" id="distance" value="100" min="10" max="500" data-highlight="true" />
 		</div>
 		<div data-role="fieldcontain">
 			<fieldset data-role="controlgroup">
-				<legend>식당 종류 : </legend>
-				<input type="checkbox" name="type[]" value="한식" id="type1" />
+				<legend class="ui-blocka">식당 종류 : </legend>
+				<input type="checkbox" name="type[]" value="한식" id="type1" class="ui-block-b" />
 				<label for="type1">한식</label>
-				<input type="checkbox" name="type[]" value="중식" id="type2" />
+				<input type="checkbox" name="type[]" value="중식" id="type2" class="ui-block-b" />
 				<label for="type2">중식</label>
-				<input type="checkbox" name="type[]" value="양식" id="type3" />
+				<input type="checkbox" name="type[]" value="양식" id="type3" class="ui-block-b" />
 				<label for="type3">양식</label>
-				<input type="checkbox" name="type[]" value="일식" id="type4" />
+				<input type="checkbox" name="type[]" value="일식" id="type4" class="ui-block-b" />
 				<label for="type4">일식</label>
-				<input type="checkbox" name="type[]" value="분식" id="type5" />
+				<input type="checkbox" name="type[]" value="분식" id="type5" class="ui-block-b" />
 				<label for="type5">분식</label>
-				<input type="checkbox" name="type[]" value="기타" id="type6" />
+				<input type="checkbox" name="type[]" value="기타" id="type6" class="ui-block-b" />
 				<label for="type6">기타</label>
 			</fieldset>
 		</div>
+<<<<<<< HEAD
 		<div data-role="fieldcontain">
 			
+=======
+>>>>>>> 3cb02b80d2e032fce07b841b714a11e90913f931
 		</div>
 	</form>
 </div>

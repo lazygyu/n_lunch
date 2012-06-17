@@ -97,7 +97,7 @@ def mobile_recommand():
         return "no data"
     idx = random.randint(1, cnt)
     result = collection.find().limit(-1).skip(idx-1).next()
-    return result["title"]
+    return result['title']
     
 @app.route('/add', methods=['get','post'])
 def addForm():

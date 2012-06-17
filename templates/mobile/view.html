@@ -28,11 +28,8 @@
 			{'center':pos}
 		);
 		marker.setMap(map);
-		if(navigator.geolocation){
-			$("#btnCurLocation").click(function(){
-				navigator.geolocation.getCurrentPosition(mypos);	
-			});
-			
+		if(navigator.geolocation){			
+			navigator.geolocation.getCurrentPosition(mypos);		
 		}
 	});
 </script>

@@ -24,7 +24,8 @@
 		}
 	});
 </script>
-		<a href="{{url_for('mobile_recommand_form')}}" data-role="button" data-icon="check" data-theme="b">추천해줘!</a>
+		<a href="{{url_for('mobile_recommand')}}" data-role="button" data-icon="check" data-theme="b">추천해줘!</a>
+		<a href="{{url_for('mobile_search_form')}}" data-role="button" data-icon="search">상세 검색</a>
 		<button type="button" data-icon="info" id="btnCurLocation">현재 위치 확인!</button>
 		<p id="locationResult" style="align:center;"></p> 
 {% endblock %}

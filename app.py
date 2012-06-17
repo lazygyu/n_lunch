@@ -86,6 +86,18 @@ def localsearch():
         res.append({'title':n_title, 'desc':n_desc, 'tel':n_tel, 'addr':n_addr, 'x':n_x, 'y':n_y})
     xmldoc.unlink()
     return json.dumps(res)
+
+@app.route('/m/recom')
+def mobile_recommand():
+    conn = dbCon()
+    db = conn.lunch
+    collection = db.restaurants
+    cnt = collection.count()
+    if cnt == 0:
+        return "no data"
+    idx = random.randint(1, cnt)
+    result = collection.find().limit(-1).skip(idx-1).next()
+    return result["title"]
     
 @app.route('/add', methods=['get','post'])
 def addForm():

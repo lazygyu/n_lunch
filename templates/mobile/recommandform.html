@@ -30,16 +30,19 @@
 				<label for="type6">기타</label>
 			</fieldset>
 		</div>
+		<div data-role="fieldcontain">
+			
+		</div>
 	</form>
 <script type="text/javascript">
 	$(function(){
 		$("#distanceDiv").hide();
-		$("#hasDistance").click(function(){
+		$("#hasDistance").bind("change", function(){
 			var v = $("option:selected", this).val();
 			if( v == "on"){
-				$("#distance").slideDown();
+				$("#distanceDiv").slideDown();
 			}else{
-				$("#distance").slideUp();
+				$("#distanceDiv").slideUp();
 			}
 		});
 	})

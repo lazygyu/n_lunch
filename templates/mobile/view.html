@@ -7,7 +7,7 @@
 	var myloc = null;
 	
 	function mypos(dat){
-		myloc = new daum.maps.LatLng(dat.coord.latitude, dat.coord.longitude);
+		myloc = new daum.maps.LatLng(dat.coords.latitude, dat.coords.longitude);
 		var marker = new daum.maps.Marker({
 			position:myloc
 		});

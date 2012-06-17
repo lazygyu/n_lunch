@@ -7,16 +7,21 @@
 	var myloc = null;
 	
 	function mypos(dat){
+		alert(1);
 		myloc = new daum.maps.LatLng(dat.coords.latitude, dat.coords.longitude);
 		var marker = new daum.maps.Marker({
 			position:myloc
 		});
+		alert(2);
 		marker.setMap(map);
 		map.setBounds(new daum.maps.LatLngBounds(pos, myloc));
+		alert(3);
 		var info = new daum.maps.InfoWindow({
 			content: "현재 위치"
 		});
+		alert(4);
 		info.open(map, marker);
+		alert(5);
 	}
 	
 	$(function(){

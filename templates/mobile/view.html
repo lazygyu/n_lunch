@@ -5,11 +5,7 @@
 	var map = null;
 	var pos = null;
 	var myloc = null;
-	
-	
-	
 	$(function(){
-		
 		try{
 			pos = new daum.maps.LatLng({{res['pos']['lat']}}, {{res['pos']['lng']}});
 			var marker = new daum.maps.Marker({
@@ -44,7 +40,7 @@
 	#map {width:90%; height:300px; border:solid 1px gray; margin:0 auto;}
 </style>
 <h3>{{res['title']}}</h3>
-<div id="map"></div>
+<div id="map"> </div>
 <div class="ui-grid-a">
 	<span class="ui-block-a"><strong>주소</strong></span>
 	<span class="ui-block-b">{{res['addr']}}</span>

@@ -13,6 +13,10 @@
 		});
 		marker.setMap(map);
 		map.setBounds(new daum.maps.LatLngBounds(pos, myloc));
+		var info = new daum.maps.InfoWindow({
+			content: "현재 위치"
+		});
+		info.open(map, marker);
 	}
 	
 	$(function(){

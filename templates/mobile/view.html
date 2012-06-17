@@ -4,11 +4,29 @@
 <script type="text/javascript">
 	var map = null;
 	
+	function mypos(dat){
+		var pos = new daum.maps.LatLng(dat.coord.latitude, dat.coord.longitude);
+		var marker = new daum.maps.Marker({
+			position:pos
+		});
+		marker.setMap(map);
+	}
+	
 	$(function(){
 		var pos = new daum.maps.LatLng({{res['pos']['lat']}}, {{res['pos']['lng']}});
+		var marker = new daum.maps.Marker({
+			position:pos
+		});
 		map = new daum.maps.Map(document.getElementById("map"),
 			{'center':pos}
 		);
+		marker.setMap(map);
+		if(navigator.geolocation){
+			$("#btnCurLocation").click(function(){
+				navigator.geolocation.getCurrentPosition(mypos);	
+			});
+			
+		}
 	});
 </script>
 <style type="text/css">
@@ -21,7 +39,7 @@
 	<span class="ui-block-b">{{res['addr']}}</span>
 	<span class="ui-block-a"><strong>전화번호</strong></span>
 	<span class="ui-block-b"><a href="tel:{{res['tel']}}">{{res['tel']}}</a></span>
-	<span class="ui-block-a">가격대</span>
+	<span class="ui-block-a"><strong>가격대</strong></span>
 	<span class="ui-block-b">{{res['price_min']}}원 ~ {{res['price_max']}}원</span>
 </div>
 {% endblock %}

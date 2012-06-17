@@ -33,7 +33,8 @@
 			{'center':pos}
 		);
 		marker.setMap(map);
-		if(navigator.geolocation){			
+		if(navigator.geolocation){
+			alert('t');
 			navigator.geolocation.getCurrentPosition(mypos);		
 		}
 	});

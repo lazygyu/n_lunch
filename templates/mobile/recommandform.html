@@ -1,5 +1,6 @@
 {% extends "mobile/layout.html" %}
 {% block body %}
+<div data-role="collapsible">
 	<h2>추천 옵션</h2>
 	<form method="post" action="{{url_for('mobile_recommand')}}">
 		<div data-role="fieldcontain">
@@ -31,6 +32,7 @@
 			</fieldset>
 		</div>
 	</form>
+</div>
 <script type="text/javascript">
 	$(function(){
 		$("#distanceDiv").hide();

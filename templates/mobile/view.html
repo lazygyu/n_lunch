@@ -6,18 +6,7 @@
 	var pos = null;
 	var myloc = null;
 	
-	function mypos(dat){
-		myloc = new daum.maps.LatLng(dat.coords.latitude, dat.coords.longitude);
-		var marker = new daum.maps.Marker({
-			position:myloc
-		});
-		marker.setMap(map);
-		map.setBounds(new daum.maps.LatLngBounds(pos, myloc));
-		var info = new daum.maps.InfoWindow({
-			content: "현재 위치"
-		});
-		info.open(map, marker);
-	}
+	
 	
 	$(function(){
 		
@@ -37,6 +26,19 @@
 			alert(er);
 		}
 	});
+	
+	function mypos(dat){
+		myloc = new daum.maps.LatLng(dat.coords.latitude, dat.coords.longitude);
+		var mark = new daum.maps.Marker({
+			position:myloc
+		});
+		mark.setMap(map);
+		map.setBounds(new daum.maps.LatLngBounds(pos, myloc));
+		var info = new daum.maps.InfoWindow({
+			content: "현재 위치"
+		});
+		info.open(map, mark);
+	}
 </script>
 <style type="text/css">
 	#map {width:90%; height:300px; border:solid 1px gray; margin:0 auto;}

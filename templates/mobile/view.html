@@ -6,7 +6,7 @@
 	var pos = null;
 	var myloc = null;
 	$(function(){
-		document.body.onload += function(){
+		
 			pos = new daum.maps.LatLng( {{res['pos']['lat']}} , {{res['pos']['lng']}} );
 			var marker = new daum.maps.Marker({ position:pos });
 			map = new daum.maps.Map(document.getElementById("map"),	{'center':pos});
@@ -15,7 +15,6 @@
 				if( confirm("현재 위치를 함께 표시할까요?") )
 					navigator.geolocation.getCurrentPosition(mypos);		
 			}
-		};
 	});
 	
 	function mypos(dat){

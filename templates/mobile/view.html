@@ -15,9 +15,10 @@
 				{'center':pos}
 			);
 			marker.setMap(map);
-			// if(navigator.geolocation){
-				// navigator.geolocation.getCurrentPosition(mypos);		
-			// }
+			if(navigator.geolocation){
+				if( confirm("현재 위치를 함께 표시할까요?") )
+					navigator.geolocation.getCurrentPosition(mypos);		
+			}
 		}catch(er){
 			alert(er);
 		}

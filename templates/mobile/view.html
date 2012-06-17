@@ -8,10 +8,17 @@
 		
 	});
 </script>
+<style type="text/css">
+	#map {width:90%; border:solid 1px gray; margin:0 auto;}
+</style>
 <h3>{{res['title']}}</h3>
 <div id="map"></div>
 <div class="ui-grid-a">
 	<span class="ui-block-a">주소</span>
 	<span class="ui-block-b">{{res['addr']}}</span>
+	<span class="ui-block-a">전화번호</span>
+	<span class="ui-block-b">{{res['tel']}}</span>
+	<span class="ui-block-a">가격대</span>
+	<span class="ui-block-b">{{res['price_min']}}원 ~ {{res['price_max']}}원</span>
 </div>
 {% endblock %}

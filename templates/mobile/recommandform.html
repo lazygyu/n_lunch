@@ -32,23 +32,18 @@
 				<label for="type6">기타</label>
 			</fieldset>
 		</div>
-<<<<<<< HEAD
-		<div data-role="fieldcontain">
-			
-=======
->>>>>>> 3cb02b80d2e032fce07b841b714a11e90913f931
 		</div>
 	</form>
 </div>
 <script type="text/javascript">
 	$(function(){
 		$("#distanceDiv").hide();
-		$("#hasDistance").bind("change", function(){
+		$("#hasDistance").click(function(){
 			var v = $("option:selected", this).val();
 			if( v == "on"){
-				$("#distanceDiv").slideDown();
+				$("#distance").slideDown();
 			}else{
-				$("#distanceDiv").slideUp();
+				$("#distance").slideUp();
 			}
 		});
 	})

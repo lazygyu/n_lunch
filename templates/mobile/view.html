@@ -1,6 +1,5 @@
 {% extends "mobile/layout.html" %}
 {% block body %}
-<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey={{config['MAP_APIKEY']}}"></script>
 <script type="text/javascript">
 	var map = null;
 	var pos = null;
@@ -23,8 +22,32 @@
 		
 			pos = new daum.maps.LatLng( {{res['pos']['lat']}} , {{res['pos']['lng']}} );
 			var marker = new daum.maps.Marker({ position:pos });
+			var infoWin = new daum.maps.InfoWindow({ content:"{{ res['title'] }}" });
 			map = new daum.maps.Map(document.getElementById("map"),	{'center':pos});
 			marker.setMap(map);
+			infoWin.open(map, marker);
+			var neopleIcon = new daum.maps.MarkerImage(
+				'http://www.neople.co.kr/image/neople/ci_sam.gif',
+				new daum.maps.Size(80,50),
+				new daum.maps.Point(40,30)
+			);
+			var npos = new daum.maps.LatLng(37.49834149526592, 127.03451563863747);
+			var neopleMarker = new daum.maps.Marker({position:npos, image:neopleIcon}).setMap(map);
+			var circle1 = new daum.maps.Circle({
+				center:npos,
+				radius:100,
+				strokeWeight:1
+			}).setMap(map);
+			var circle2 = new daum.maps.Circle({
+				center:npos,
+				radius:200,
+				strokeWeight:1
+			}).setMap(map);
+			var circle3 = new daum.maps.Circle({
+				center:npos,
+				radius:300,
+				strokeWeight:1
+			}).setMap(map);
 			if(navigator.geolocation){
 				if( confirm("현재 위치를 함께 표시할까요?") )
 					navigator.geolocation.getCurrentPosition(mypos);		
@@ -45,5 +68,13 @@
 	<span class="ui-block-b"><a href="tel:{{res['tel']}}">{{res['tel']}}</a></span>
 	<span class="ui-block-a"><strong>가격대</strong></span>
 	<span class="ui-block-b">{{res['price_min']}}원 ~ {{res['price_max']}}원</span>
+</div>
+<div class="ui-grid-a">
+	<div class="ui-block-a">
+		<button type="button" onclick="location.reload();" data-role="button" data-theme="a">다른 곳 보기</button>
+	</div>
+	<div class="ui-block-b">
+		<a href="{{url_for('mobilePage')}}" data-role="button">돌아가기</a>
+	</div>
 </div>
 {% endblock %}
